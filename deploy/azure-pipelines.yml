@@ -1,0 +1,67 @@
+trigger:
+  batch: true
+  branches:
+    include:
+    - '*' # build all branches
+    - refs/tags/*
+
+pr:
+  autoCancel: true
+  branches:
+    include:
+    - master
+
+pool:  
+  vmImage: ubuntu-latest
+
+variables:
+  BuildConfiguration: Release
+  
+steps:
+- task: PowerShell@2
+  displayName: Set version variables
+  inputs:
+    targetType: filePath
+    failOnStderr: true
+    filePath: $(Build.SourcesDirectory)/deploy/set-version-variables.ps1
+
+- task: PowerShell@2
+  displayName: Update build number
+  inputs:
+    targetType: filePath
+    failOnStderr: true
+    filePath: $(Build.SourcesDirectory)/deploy/update-build-number.ps1
+
+- task: DotNetCoreCLI@2
+  displayName: .NET Core Restore
+  inputs:
+    command: restore
+    projects: '**/*.csproj'
+    verbosityRestore: Normal
+
+- task: DotNetCoreCLI@2
+  displayName: .NET Core Build
+  inputs:
+    command: build
+    arguments: --configuration $(BuildConfiguration) /p:VersionPrefix=$(VersionPrefix) /p:VersionSuffix=$(VersionSuffix)
+    projects: '**/*.csproj'
+
+- task: DotNetCoreCLI@2
+  displayName: .NET Core Test
+  inputs:
+    command: test
+    arguments: --configuration $(BuildConfiguration)
+    projects: '**/*[Tt]ests/*.csproj'
+
+- task: DotNetCoreCLI@2
+  displayName: .NET Core Pack
+  inputs:
+    command: custom
+    custom: pack
+    arguments: --configuration $(BuildConfiguration) /p:VersionPrefix=$(VersionPrefix) /p:VersionSuffix=$(VersionSuffix) --output $(Build.ArtifactStagingDirectory)
+    projects: ./src/Spinit.AspNetCore.ReverseProxy/Spinit.AspNetCore.ReverseProxy.csproj
+
+- task: PublishBuildArtifacts@1
+  displayName: Publish artifacts
+  inputs:
+    PathtoPublish: $(Build.ArtifactStagingDirectory)

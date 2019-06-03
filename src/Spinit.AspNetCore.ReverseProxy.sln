@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.452
+MinimumVisualStudioVersion = 15.0.26124.0
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spinit.AspNetCore.ReverseProxy", "Spinit.AspNetCore.ReverseProxy\Spinit.AspNetCore.ReverseProxy.csproj", "{E6C0DE99-88FD-40F2-8E71-CD41BF2FA865}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spinit.AspNetCore.ReverseProxy.Tests", "Spinit.AspNetCore.ReverseProxy.Tests\Spinit.AspNetCore.ReverseProxy.Tests.csproj", "{EE42400C-5631-4EE0-AE22-2EEF3B8D0F7D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReverseProxyExample", "Example\ReverseProxyExample.csproj", "{9A8C1932-0A06-433C-BA62-BA450A93A2FD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E6C0DE99-88FD-40F2-8E71-CD41BF2FA865}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6C0DE99-88FD-40F2-8E71-CD41BF2FA865}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6C0DE99-88FD-40F2-8E71-CD41BF2FA865}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6C0DE99-88FD-40F2-8E71-CD41BF2FA865}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE42400C-5631-4EE0-AE22-2EEF3B8D0F7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE42400C-5631-4EE0-AE22-2EEF3B8D0F7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE42400C-5631-4EE0-AE22-2EEF3B8D0F7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE42400C-5631-4EE0-AE22-2EEF3B8D0F7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A8C1932-0A06-433C-BA62-BA450A93A2FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A8C1932-0A06-433C-BA62-BA450A93A2FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A8C1932-0A06-433C-BA62-BA450A93A2FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A8C1932-0A06-433C-BA62-BA450A93A2FD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2873D4E0-6266-4B10-BC93-8DFD8EA9FE37}
+	EndGlobalSection
+EndGlobal

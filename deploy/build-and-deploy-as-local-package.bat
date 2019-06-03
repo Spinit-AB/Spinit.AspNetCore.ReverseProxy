@@ -1,0 +1,2 @@
+dotnet restore ../src/Spinit.AspNetCore.ReverseProxy.sln
+dotnet pack ../src/Spinit.AspNetCore.ReverseProxy/Spinit.AspNetCore.ReverseProxy.csproj --configuration Release --version-suffix pre --no-restore
