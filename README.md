@@ -25,8 +25,8 @@ PM> Install-Package Spinit.AspNetCore.ReverseProxy
 > dotnet add package Spinit.AspNetCore.ReverseProxy
 ```
 
-Usage
------
+Basic Usage
+-----------
 
 ### Add to services
 
@@ -37,7 +37,7 @@ public void ConfigureServices(IServiceCollection services)
         ...
         .AddReverseProxy(options => 
         {
-            // optional configuration            
+            // optional configuration
         });
 }
 ```
@@ -63,6 +63,9 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         });
 }
 ```
+
+Advanced Usage
+--------------
 
 ### Add a filter to intercept or modify proxy requests
 
