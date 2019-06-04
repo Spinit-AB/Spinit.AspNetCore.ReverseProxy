@@ -4,19 +4,21 @@ using System.Threading.Tasks;
 
 namespace Spinit.AspNetCore.ReverseProxy
 {
+    /// <summary>
+    /// Extensionmethods for <see cref="IReverseProxyFilter"/>
+    /// </summary>
     public static class ReverseProxyFilterExtensions
     {
+        /// <summary>
+        /// Adds a <see cref="IReverseProxyFilter"/> to the list.
+        /// </summary>
+        /// <typeparam name="TFilter">The filter type to add</typeparam>
+        /// <param name="filters"></param>
+        /// <returns></returns>
         public static IList<IReverseProxyFilter> Add<TFilter>(this IList<IReverseProxyFilter> filters)
             where TFilter : IReverseProxyFilter, new()
         {
             var filter = Activator.CreateInstance<TFilter>();
-            filters.Add(filter);
-            return filters;
-        }
-
-        public static IList<IReverseProxyFilter> Add<TFilter>(this IList<IReverseProxyFilter> filters, TFilter filter)
-            where TFilter : IReverseProxyFilter
-        {
             filters.Add(filter);
             return filters;
         }

@@ -17,17 +17,17 @@ namespace Spinit.AspNetCore.ReverseProxy
         {
         }
 
-        public IReverseProxyRouteBuilder MapRoute(string template, Func<RouteData, Uri> handler)
+        public IReverseProxyRouteBuilder MapRoute(string routeTemplate, Func<RouteData, Uri> handler)
         {
             var route = new Route(
                 new ReverseProxyRouteHandler(handler),
-                template,
+                routeTemplate,
                 defaults: null,
                 constraints: null,
                 dataTokens: null,
                 inlineConstraintResolver: GetConstraintResolver(this));
 
-            this.Routes.Add(route);
+            Routes.Add(route);
             return this;
         }
 
