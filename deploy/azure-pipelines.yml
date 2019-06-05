@@ -61,7 +61,7 @@ steps:
   displayName: .NET Core Test
   inputs:
     command: test
-    arguments: --no-build --configuration $(BuildConfiguration)
+    arguments: --no-build --configuration $(BuildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
     projects: '**/*[Tt]ests/*.csproj'
 
 - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
