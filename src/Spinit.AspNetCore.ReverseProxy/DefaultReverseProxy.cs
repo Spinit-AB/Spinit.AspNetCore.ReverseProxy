@@ -56,10 +56,9 @@ namespace Spinit.AspNetCore.ReverseProxy
         internal static HttpRequestMessage CreateProxyRequest(HttpRequest source, Uri proxyUri)
         {
             proxyUri = BuildProxyUri(source, proxyUri);
-
-            var proxyRequest = new HttpRequestMessage(new HttpMethod(source.Method), proxyUri);
-            TrySetProxyRequestBody(proxyRequest, source);
-            TrySetProxyRequestHeaders(proxyRequest, source);
+            var proxyRequest = new HttpRequestMessage();
+            proxyRequest.Assign(source);
+            proxyRequest.RequestUri = proxyUri;
             return proxyRequest;
         }
 
@@ -69,33 +68,6 @@ namespace Spinit.AspNetCore.ReverseProxy
                 proxyUri = new Uri(new Uri(source.GetEncodedUrl()), proxyUri);
 
             return new Uri(proxyUri, source.QueryString.ToUriComponent());
-        }
-
-        internal static void TrySetProxyRequestBody(HttpRequestMessage proxyRequest, HttpRequest source)
-        {
-            if (source.Body == null)
-                return;
-
-            /*
-            if (source.HasFormContentType)
-            {
-                var formFields = source.Form.ToDictionary(x => x.Key, x => x.Value.ToString());
-                proxyRequest.Content = new FormUrlEncodedContent(formFields);
-            }
-            else
-            */
-            proxyRequest.Content = new StreamContent(source.Body);
-        }
-
-        internal static void TrySetProxyRequestHeaders(HttpRequestMessage proxyRequest, HttpRequest source)
-        {
-            foreach (var header in source.Headers)
-            {
-                if (!proxyRequest.Headers.TryAddWithoutValidation(header.Key, header.Value.ToArray()))
-                {
-                    proxyRequest.Content?.Headers.TryAddWithoutValidation(header.Key, header.Value.ToArray());
-                }
-            }
         }
     }
 }

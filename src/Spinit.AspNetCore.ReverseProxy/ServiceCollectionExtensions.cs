@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Spinit.AspNetCore.ReverseProxy
@@ -21,10 +22,15 @@ namespace Spinit.AspNetCore.ReverseProxy
 
             if (configure != null)
                 serviceCollection.Configure(configure);
-            
+
             serviceCollection
                 .AddSingleton<IReverseProxy, DefaultReverseProxy>()
-                .AddHttpClient<IReverseProxy, DefaultReverseProxy>();
+                .AddHttpClient<IReverseProxy, DefaultReverseProxy>()
+                    .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+                    {
+                        AllowAutoRedirect = false,
+                        UseCookies = false
+                    });
             return serviceCollection;
         }
     }

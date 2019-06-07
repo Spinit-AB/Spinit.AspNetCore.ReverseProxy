@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Net.Http.Headers;
 
 namespace Spinit.AspNetCore.ReverseProxy
 {
@@ -15,6 +16,9 @@ namespace Spinit.AspNetCore.ReverseProxy
                 target.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return target;
             }
+
+            target.StatusCode = (int)source.StatusCode;
+
             foreach (var header in source.Headers)
             {
                 target.Headers[header.Key] = header.Value.ToArray();
@@ -23,8 +27,9 @@ namespace Spinit.AspNetCore.ReverseProxy
             {
                 target.Headers[header.Key] = header.Value.ToArray();
             }
-            target.Headers.Remove("transfer-encoding");
-            target.StatusCode = (int)source.StatusCode;
+
+            // HttpClient.SendAsync removes chunking from the response. This removes the header so it doesn't expect a chunked response.
+            target.Headers.Remove(HeaderNames.TransferEncoding);
 
             if (source.StatusCode != HttpStatusCode.NoContent)
                 await source.Content.CopyToAsync(target.Body).ConfigureAwait(false);

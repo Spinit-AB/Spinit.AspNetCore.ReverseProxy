@@ -8,12 +8,18 @@ namespace Spinit.AspNetCore.ReverseProxy
     /// </summary>
     public class ReverseProxyOptions
     {
+        internal static IEnumerable<IReverseProxyFilter> DefaultReverseProxyFilters = new IReverseProxyFilter[]
+        {
+            new RemoveConnectionHeaderFilter(),
+            new RemoveHostHeaderFilter(),
+        };
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReverseProxyOptions"/> class.
+        /// Initializes a new instance of the <see cref="ReverseProxyOptions"/> class with the default filters.
         /// </summary>
         public ReverseProxyOptions()
         {
-            Filters = new List<IReverseProxyFilter>();
+            Filters = new List<IReverseProxyFilter>(DefaultReverseProxyFilters);
         }
 
         /// <summary>

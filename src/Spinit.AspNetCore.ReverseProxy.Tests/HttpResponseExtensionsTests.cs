@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
-using Microsoft.Net.Http.Headers;
+using Spinit.AspNetCore.ReverseProxy.Tests.Infrastructure;
 using Xunit;
 
 namespace Spinit.AspNetCore.ReverseProxy.Tests.HttpResponseExtensions
@@ -24,7 +22,7 @@ namespace Spinit.AspNetCore.ReverseProxy.Tests.HttpResponseExtensions
         }
 
         [Theory]
-        [MemberData(nameof(GetRequestHeaderTheories))]
+        [MemberData(nameof(HttpTestingUtils.GetRequestHeaderTheories), MemberType = typeof(HttpTestingUtils))]
         public async Task ShouldAddSourceHeader(string headerName)
         {
             var target = CreateHttpResponse();
@@ -38,7 +36,7 @@ namespace Spinit.AspNetCore.ReverseProxy.Tests.HttpResponseExtensions
         }
 
         [Theory]
-        [MemberData(nameof(GetRequestHeaderTheories))]
+        [MemberData(nameof(HttpTestingUtils.GetRequestHeaderTheories), MemberType = typeof(HttpTestingUtils))]
         public async Task ShouldAddSourceHeaderValue(string headerName)
         {
             var target = CreateHttpResponse();
@@ -53,7 +51,7 @@ namespace Spinit.AspNetCore.ReverseProxy.Tests.HttpResponseExtensions
         }
 
         [Theory]
-        [MemberData(nameof(GetContentHeaderTheories))]
+        [MemberData(nameof(HttpTestingUtils.GetContentHeaderTheories), MemberType = typeof(HttpTestingUtils))]
         public async Task ShouldAddSourceContentHeader(string headerName)
         {
             var target = CreateHttpResponse();
@@ -67,7 +65,7 @@ namespace Spinit.AspNetCore.ReverseProxy.Tests.HttpResponseExtensions
         }
 
         [Theory]
-        [MemberData(nameof(GetContentHeaderTheories))]
+        [MemberData(nameof(HttpTestingUtils.GetContentHeaderTheories), MemberType = typeof(HttpTestingUtils))]
         public async Task ShouldAddSourceContentHeaderValue(string headerName)
         {
             var target = CreateHttpResponse();
@@ -96,7 +94,7 @@ namespace Spinit.AspNetCore.ReverseProxy.Tests.HttpResponseExtensions
         }
 
         [Theory]
-        [MemberData(nameof(GetHttpStatusCodeTheories))]
+        [MemberData(nameof(HttpTestingUtils.GetHttpStatusCodeTheories), MemberType = typeof(HttpTestingUtils))]
         public async Task ShouldSetStatusCode(int statusCode)
         {
             var target = CreateHttpResponse();
@@ -121,7 +119,7 @@ namespace Spinit.AspNetCore.ReverseProxy.Tests.HttpResponseExtensions
         }
 
         [Theory]
-        [MemberData(nameof(GetHttpStatusCodeTheories))]
+        [MemberData(nameof(HttpTestingUtils.GetHttpStatusCodeTheories), MemberType = typeof(HttpTestingUtils))]
         public async Task ShouldCopyContentIfNot204(int statusCode)
         {
             if (statusCode == 204)
@@ -142,60 +140,6 @@ namespace Spinit.AspNetCore.ReverseProxy.Tests.HttpResponseExtensions
             {
                 Body = new MemoryStream()
             };
-        }
-
-        public static TheoryData<string> GetRequestHeaderTheories()
-        {
-            var result = new TheoryData<string>();
-            foreach (var header in GetRequestHeaders())
-            {
-                if (header.Equals(HeaderNames.TransferEncoding, StringComparison.OrdinalIgnoreCase))
-                    continue;
-                result.Add(header);
-            }
-            return result;
-        }
-
-        public static TheoryData<string> GetContentHeaderTheories()
-        {
-            var result = new TheoryData<string>();
-            foreach (var header in GetContentHeaders())
-            {
-                result.Add(header);
-            }
-            return result;
-        }
-
-        public static IEnumerable<string> GetRequestHeaders()
-        {
-            var httpResponseMessage = new HttpRequestMessage();
-            return GetKnownHeaders().Where(x => httpResponseMessage.Headers.TryAddWithoutValidation(x, Guid.NewGuid().ToString())).ToList();
-        }
-
-        public static IEnumerable<string> GetContentHeaders()
-        {
-            var content = new StringContent("");
-            return GetKnownHeaders().Where(x => content.Headers.TryAddWithoutValidation(x, Guid.NewGuid().ToString())).ToList();
-        }
-
-        public static IEnumerable<string> GetKnownHeaders()
-        {
-            return typeof(HeaderNames).GetFields().Select(x => x.GetValue(null).ToString()).Where(x => !x.StartsWith(":")).ToArray();
-        }
-
-        public static TheoryData<int> GetHttpStatusCodeTheories()
-        {
-            var statusCodes = new List<int>();
-            foreach (int value in Enum.GetValues(typeof(HttpStatusCode)))
-                statusCodes.Add(value);
-            statusCodes = statusCodes.Distinct().ToList();
-
-            var result = new TheoryData<int>();
-            foreach (var statusCode in statusCodes)
-            {
-                result.Add(statusCode);
-            }
-            return result;
         }
     }
 }
