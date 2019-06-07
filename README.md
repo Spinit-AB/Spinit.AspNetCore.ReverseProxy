@@ -2,8 +2,9 @@ Spinit.AspNetCore.ReverseProxy
 ========================================
 
 ![Licence: MIT](https://img.shields.io/github/license/Spinit-AB/Spinit.AspNetCore.ReverseProxy.svg)
-![Azure DevOps builds](https://img.shields.io/azure-devops/build/spinitforce/d7ddce33-e90d-4c48-9976-24d1676759e2/11/master.svg)
-![Azure DevOps tests](https://img.shields.io/azure-devops/tests/spinitforce/d7ddce33-e90d-4c48-9976-24d1676759e2/11.svg?compact_message)
+![Azure DevOps builds](https://img.shields.io/azure-devops/build/spinitforce/d7ddce33-e90d-4c48-9976-24d1676759e2/12/master.svg)
+![Azure DevOps tests](https://img.shields.io/azure-devops/tests/spinitforce/d7ddce33-e90d-4c48-9976-24d1676759e2/12.svg?compact_message)
+![Sonar Quality Gate](https://img.shields.io/sonar/https/sonarcloud.io/Spinit.AspNetCore.ReverseProxy/quality_gate.svg)
 ![Nuget](https://img.shields.io/nuget/v/Spinit.AspNetCore.ReverseProxy.svg)
 
 
